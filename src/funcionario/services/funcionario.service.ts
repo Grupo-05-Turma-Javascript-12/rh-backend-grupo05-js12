@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/browser/repository/Repository.js';
 import { Funcionario } from '../entities/funcionario.entity';
@@ -13,7 +13,13 @@ export class FuncionarioService {
     return await this.funcionarioRepository.find();
   }
 
-  async findById(): Promise<Funcionario | null> {}
+  async findById(id: number): Promise<Funcionario | null> {
+    const funcionario = await this.funcionarioRepository.findOne({
+      where : { id }
+    });
+    if (!funcionario) throw new HttpException('Funcionário não encontrado!', 404);
+    return funcionario;
+  }
 
   async findBySetor(): Promise<Funcionario[]> {}
 
