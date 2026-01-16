@@ -14,11 +14,11 @@ export class Funcionario {
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    findBySetor(): Promise<Funcionario> {}
+    findBySetor(): Promise<Funcionario[]> {}
 
     @Get()
     @HttpCode(HttpStatus.OK)
-    findByStatus(): Promise<Funcionario> {}
+    findByStatus(): Promise<Funcionario[]> {}
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
