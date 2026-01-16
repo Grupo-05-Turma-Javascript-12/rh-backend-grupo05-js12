@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { Funcionario } from './funcionario/entities/funcionario.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'root',
       password: '',
       database: 'empresa_db',
-      entities: [],
+      entities: [Funcionario],
       synchronize: true,
     }),
   ],
