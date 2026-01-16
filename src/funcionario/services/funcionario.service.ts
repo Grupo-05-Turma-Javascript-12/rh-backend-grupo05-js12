@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/browser/repository/Repository.js';
 import { Funcionario } from '../entities/funcionario.entity';
+import { ILike } from 'typeorm';
 @Injectable()
 export class FuncionarioService {
   postagemRepository: any;
@@ -22,7 +23,13 @@ export class FuncionarioService {
     return funcionario;
   }
 
-  async findBySetor(): Promise<Funcionario[]> {}
+  async findBySetor(setor: string): Promise<Funcionario[]> {
+    const funcionario = await this.funcionarioRepository.find({
+      where: {
+        setor: ILike(`%${setor}%`)
+      }
+    })
+  }
 
   async findByStatus(): Promise<Funcionario[]> {}
 
