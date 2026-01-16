@@ -1,8 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/browser/repository/Repository.js';
+import { ILike, Repository } from 'typeorm';
 import { Funcionario } from '../entities/funcionario.entity';
-import { ILike } from 'typeorm';
 @Injectable()
 export class FuncionarioService {
   constructor(
@@ -16,21 +15,24 @@ export class FuncionarioService {
 
   async findById(id: number): Promise<Funcionario | null> {
     const funcionario = await this.funcionarioRepository.findOne({
-      where : { id }
+      where: { id },
     });
-    if (!funcionario) throw new HttpException('Funcionário não encontrado!', 404);
+    if (!funcionario)
+      throw new HttpException('Funcionário não encontrado!', 404);
     return funcionario;
   }
 
   async findBySetor(setor: string): Promise<Funcionario[]> {
-    const funcionario = await this.funcionarioRepository.find({
-      where: {
-        setor: ILike(`%${setor}%`)
-      }
-    })
+    const funcionarios = await this.funcionarioRepository.find({
+      where: { setor: ILike(`%${setor}%`) },
+    });
   }
 
-  async findByStatus(): Promise<Funcionario[]> {}
+  async findByStatus(ativo: boolean): Promise<Funcionario[]> {
+    return await this.funcionarioRepository.find({
+      where: { ativo },
+    });
+  }
 
   async create(funcionario: Funcionario): Promise<Funcionario> {
     return await this.funcionarioRepository.save(funcionario);
