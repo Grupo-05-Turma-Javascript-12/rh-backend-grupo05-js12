@@ -16,9 +16,11 @@ export class Funcionario {
   @Column({ type: 'decimal', precision: 8, scale: 2 })
   salario: number;
 
-  @Column({ type: 'date' })
+  @IsNotEmpty()
+  @Column({ type: 'date', nullable: false })
   data_admissao: Date;
 
+  @IsNotEmpty()
   @Column({ type: 'boolean', default: true })
   ativo: boolean;
 }
