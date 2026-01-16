@@ -1,34 +1,49 @@
-import { Controller, Delete, Get, HttpCode, HttpStatus, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { FuncionarioService } from "../services/funcionario.service";
+import { Funcionario } from "../entities/funcionario.entity";
 
 @Controller('/funcionarios')
-export class Funcionario {
+export class FuncionarioController {
     constructor(private readonly funcionarioService: FuncionarioService) {}
     @Get()
     @HttpCode(HttpStatus.OK)
-    findAll(): Promise<Funcionario[]> {}
+    findAll(): Promise<Funcionario[]> {
+        return this.funcionarioService.findAll()
+    }
 
-    @Get()
+    @Get('/:id')
     @HttpCode(HttpStatus.OK)
-    findById(): Promise<Funcionario> {}
+    findById(@Param('id', ParseIntPipe) id: number): Promise<Funcionario | null> {
+        return this.funcionarioService.findById(id)
+    }
 
-    @Get()
+    @Get('/setor/:setor')
     @HttpCode(HttpStatus.OK)
-    findBySetor(): Promise<Funcionario[]> {}
+    findBySetor(@Param('setor') setor: string): Promise<Funcionario[]> {
+        return this.funcionarioService.findBySetor(setor)
+    }
 
-    @Get()
+    @Get('/status/:status')
     @HttpCode(HttpStatus.OK)
-    findByStatus(): Promise<Funcionario[]> {}
+    findByStatus(@Param('status') status: boolean): Promise<Funcionario[]> {
+        return this.funcionarioService.findByStatus(status)
+    }
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    create(): Promise<Funcionario> {}
+    create(@Body() funcionario: Funcionario): Promise<Funcionario> {
+        return this.funcionarioService.create(funcionario)
+    }
 
     @Put()
     @HttpCode(HttpStatus.OK)
-    update(): Promise<Funcionario> {}
+    update(@Body() funcionario: Funcionario): Promise<Funcionario> {
+        return this.funcionarioService.update(funcionario)
+    }
 
-    @Delete()
+    @Delete('/:id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    delete(): void {}
+    delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+        return this.funcionarioService.delete(id)
+    }
 }
