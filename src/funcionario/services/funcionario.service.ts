@@ -29,7 +29,11 @@ export class FuncionarioService {
     return await this.funcionarioRepository.save(funcionario);
   }
 
-  async update(): Promise<Funcionario> {}
+  async update(funcionario: Funcionario): Promise<Funcionario> {
+    await this.findById(funcionario.id);
+
+    return await this.funcionarioRepository.save(funcionario);
+  }
 
   async delete(): Promise<void> {}
 }
