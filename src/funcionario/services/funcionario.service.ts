@@ -4,6 +4,7 @@ import { ILike, Repository } from 'typeorm';
 import { Funcionario } from '../entities/funcionario.entity';
 @Injectable()
 export class FuncionarioService {
+  postagemRepository: any;
   constructor(
     @InjectRepository(Funcionario)
     private readonly funcionarioRepository: Repository<Funcionario>,
@@ -38,7 +39,19 @@ export class FuncionarioService {
     return await this.funcionarioRepository.save(funcionario);
   }
 
-  async update(): Promise<Funcionario> {}
+  async update(funcionario: Funcionario): Promise<Funcionario> {
+    await this.findById(funcionario.id);
 
-  async delete(): Promise<void> {}
+    return await this.funcionarioRepository.save(funcionario);
+  }
+
+  async delete(id: number): Promise<void> {
+    const funcionario = await this.findById(id);
+
+    if (!funcionario) {
+      throw new HttpException('Funcionário não encontrado!', 404);
+    }
+
+    await this.funcionarioRepository.delete(id);
+  }
 }
