@@ -9,7 +9,9 @@ export class FuncionarioService {
     private readonly funcionarioRepository: Repository<Funcionario>,
   ) {}
 
-  async findAll(): Promise<Funcionario[]> {}
+  async findAll(): Promise<Funcionario[]> {
+    return await this.funcionarioRepository.find();
+  }
 
   async findById(): Promise<Funcionario | null> {}
 
@@ -17,7 +19,9 @@ export class FuncionarioService {
 
   async findByStatus(): Promise<Funcionario[]> {}
 
-  async create(): Promise<Funcionario> {}
+  async create(funcionario: Funcionario): Promise<Funcionario> {
+    return await this.funcionarioRepository.save(funcionario);
+  }
 
   async update(): Promise<Funcionario> {}
 
