@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Funcionario } from './funcionario/entities/funcionario.entity';
+import { FuncionarioModule } from './funcionario/funcionario.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,6 +14,7 @@ import { Funcionario } from './funcionario/entities/funcionario.entity';
       entities: [Funcionario],
       synchronize: true,
     }),
+    FuncionarioModule,
   ],
   controllers: [],
   providers: [],
