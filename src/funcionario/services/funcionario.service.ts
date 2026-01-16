@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/browser/repository/Repository.js';
 import { Funcionario } from '../entities/funcionario.entity';
 @Injectable()
 export class FuncionarioService {
+  postagemRepository: any;
   constructor(
     @InjectRepository(Funcionario)
     private readonly funcionarioRepository: Repository<Funcionario>,
@@ -31,5 +32,13 @@ export class FuncionarioService {
 
   async update(): Promise<Funcionario> {}
 
-  async delete(): Promise<void> {}
+  async delete(id: number): Promise<void> {
+    const funcionario = await this.findById(id);
+
+    if (!funcionario) {
+      throw new HttpException('Funcionário não encontrado!', 404);
+    }
+
+    await this.funcionarioRepository.delete(id);
+  }
 }
