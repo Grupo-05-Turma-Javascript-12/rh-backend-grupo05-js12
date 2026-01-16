@@ -13,6 +13,9 @@ export class Funcionario {
   @Column({ type: 'varchar', length: 255 })
   cargo: string;
 
+  @Column({ type: 'varchar', length: 255 })
+  setor: string;
+
   @Column({ type: 'decimal', precision: 8, scale: 2 })
   salario: number;
 
