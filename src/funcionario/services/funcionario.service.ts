@@ -27,6 +27,9 @@ export class FuncionarioService {
     const funcionarios = await this.funcionarioRepository.find({
       where: { setor: ILike(`%${setor}%`) },
     });
+    if (!funcionarios)
+      throw new HttpException('Funcionário não encontrado!', 404);
+    return funcionarios;
   }
 
   async findByStatus(ativo: boolean): Promise<Funcionario[]> {
